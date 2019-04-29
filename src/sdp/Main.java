@@ -3,6 +3,7 @@ package sdp;
 import org.junit.Test;
 
 import java.util.Scanner;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,8 +15,45 @@ public class Main {
   }
 
   private static String processGrades(Scanner scanner) {
+    int numCourses = 0;
+    double sumQualityPoints = 0;
 
-    return null;
+    Map<String, Double> letterGradeToPointValue = getLetterToGradePointMap();
+
+    while(scanner.hasNext())
+    {
+      scanner.next();
+      scanner.next();
+
+      String letterGrade = scanner.next();
+
+      if(letterGrade.equals("W")) continue;
+
+      sumQualityPoints += letterGradeToPointValue.get(letterGrade);
+      numCourses++;
+    }
+
+    double GPA = numCourses == 0 ? 0 : sumQualityPoints / numCourses;
+    return String.format("Courses: %d\nGPA: %.2f\n", numCourses, GPA);
+  }
+
+  private static Map<String, Double> getLetterToGradePointMap()
+  {
+    Map<String, Double> letterGradeToPointValue = new HashMap<String, Double>();
+
+    letterGradeToPointValue.put("A", 4.0);
+    letterGradeToPointValue.put("A-", 3.67);
+    letterGradeToPointValue.put("B+", 3.33);
+    letterGradeToPointValue.put("B", 3.0);
+    letterGradeToPointValue.put("B-", 2.67);
+    letterGradeToPointValue.put("C+", 2.33);
+    letterGradeToPointValue.put("C", 2.0);
+    letterGradeToPointValue.put("C-", 1.67);
+    letterGradeToPointValue.put("D+", 1.33);
+    letterGradeToPointValue.put("D", 1.0);
+    letterGradeToPointValue.put("F", 0.0);
+
+    return letterGradeToPointValue;
   }
 
   @Test
